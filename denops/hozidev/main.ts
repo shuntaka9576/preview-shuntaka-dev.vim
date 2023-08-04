@@ -4,7 +4,8 @@ import { Hono } from "https://deno.land/x/hono@v2.2.2/mod.ts";
 import { open } from "https://deno.land/x/opener/mod.ts";
 
 import convertToHoziDevHtml from "npm:@hozi-dev/markdown-to-html@0.11.15";
-import matter from "npm:gray-matter";
+// import matter from "npm:gray-matter";
+import { parse } from "https://deno.land/x/frontmatter/mod.ts";
 import { template } from "./template.ts";
 
 const Console = console;
@@ -13,29 +14,39 @@ const sockets = new Set<WebSocket>();
 
 export const convertHoziDevHtmlFromMd = (
   markdownString: string
-): { title: string; content: string } => {
-  const markdownExcludeMatter = matter(markdownString);
+): { title?: string; content: string } => {
+  try {
+    const markdownExcludeMatter = parse(markdownString);
 
-  const html = convertToHoziDevHtml.default(markdownExcludeMatter.content);
+    const html = convertToHoziDevHtml.default(markdownExcludeMatter.content);
 
-  return {
-    title: markdownExcludeMatter.data.title,
-    content: html,
-  };
+    return {
+      title: "preview", // TODO: パースしたタイトルを入れる
+      content: html,
+    };
+  } catch (e) {
+    console.log(e);
+    throw new Error();
+  }
 };
 
 export const main = async (denops: Denops): Promise<void> => {
   denops.dispatcher = {
     refreshContent: async (): Promise<void> => {
       const bufnr = await denops.call("bufnr", "%");
+      console.log(`bufnr: ${bufnr}`);
+
       const lines = (await denops.call(
         "getbufline",
         bufnr,
         1,
         "$"
       )) as string[];
+      /// console.log(`lines: ${lines}`);
 
       const text = lines.join("\n");
+      // console.log(`text: ${text}`);
+      console.log("run");
       const article = convertHoziDevHtmlFromMd(text);
 
       sockets.forEach((ws) => ws.send(JSON.stringify(article)));
