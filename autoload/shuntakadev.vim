@@ -4,8 +4,8 @@ endfunction
 function! s:success_callback(args) abort
 endfunction
 
-function! hozidev#init_preview() abort
-  call denops#request_async('hozidev',
+function! shuntakadev#init_preview() abort
+  call denops#request_async('shuntakadev',
         \ 'initServer',
         \ [],
         \ { args -> s:success_callback(args) },
@@ -13,8 +13,8 @@ function! hozidev#init_preview() abort
         \ )
 endfunction
 
-function! hozidev#refresh_content() abort
-  call denops#request_async('hozidev',
+function! shuntakadev#refresh_content() abort
+  call denops#request_async('shuntakadev',
         \ 'refreshContent',
         \ [],
         \ { args -> s:success_callback(args) },

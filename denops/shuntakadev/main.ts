@@ -2,7 +2,7 @@ import { Denops } from "https://deno.land/x/denops_std@v3.3.0/mod.ts";
 import { Server } from "https://deno.land/std@0.168.0/http/server.ts";
 import { Hono } from "https://deno.land/x/hono@v2.2.2/mod.ts";
 import { open } from "https://deno.land/x/opener/mod.ts";
-import convertToHoziDevHtml from "npm:@hozi-dev/markdown-to-html@0.11.15";
+import convertToshuntakadevHtml from "npm:@hozi-dev/markdown-to-html@0.11.15";
 // import matter from "npm:gray-matter";
 import { parse } from "https://deno.land/x/frontmatter/mod.ts";
 import { template } from "./template.ts";
@@ -11,12 +11,12 @@ const Console = console;
 
 const sockets = new Set<WebSocket>();
 
-export const convertHoziDevHtmlFromMd = (
+export const convertshuntakadevHtmlFromMd = (
   markdownString: string
 ): { title?: string; content: string } => {
   const markdownExcludeMatter = parse(markdownString);
 
-  const html = convertToHoziDevHtml.default(markdownExcludeMatter.content);
+  const html = convertToshuntakadevHtml.default(markdownExcludeMatter.content);
 
   return {
     title: "preview", // TODO: パースしたタイトルを入れる
@@ -37,7 +37,7 @@ export const main = async (denops: Denops): Promise<void> => {
       )) as string[];
 
       const text = lines.join("\n");
-      const article = convertHoziDevHtmlFromMd(text);
+      const article = convertshuntakadevHtmlFromMd(text);
 
       sockets.forEach((ws) => ws.send(JSON.stringify(article)));
     },
