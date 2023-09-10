@@ -2,7 +2,7 @@ import { Denops } from "https://deno.land/x/denops_std@v3.3.0/mod.ts";
 import { Server } from "https://deno.land/std@0.168.0/http/server.ts";
 import { Hono } from "https://deno.land/x/hono@v2.2.2/mod.ts";
 import { open } from "https://deno.land/x/opener/mod.ts";
-import convertToshuntakadevHtml from "npm:@hozi-dev/markdown-to-html@0.12.0";
+import convertToshuntakadevHtml from "npm:@hozi-dev/markdown-to-html@0.12.3";
 import { parse } from "https://deno.land/x/frontmatter/mod.ts";
 import { template } from "./template.ts";
 
