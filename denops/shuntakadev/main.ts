@@ -11,7 +11,7 @@ const Console = console;
 const sockets = new Set<WebSocket>();
 
 export const convertshuntakadevHtmlFromMd = (
-  markdownString: string
+  markdownString: string,
 ): { title?: string; content: string } => {
   const markdownExcludeMatter = parse(markdownString);
 
@@ -32,7 +32,7 @@ export const main = async (denops: Denops): Promise<void> => {
         "getbufline",
         bufnr,
         1,
-        "$"
+        "$",
       )) as string[];
 
       const text = lines.join("\n");

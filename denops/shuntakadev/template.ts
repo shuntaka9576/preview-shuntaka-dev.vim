@@ -1,4 +1,4 @@
-import { html } from "https://deno.land/x/hono/middleware.ts";
+import { html } from "https://deno.land/x/hono@v4.3.11/helper/html/index.ts";
 
 export const template = (params: { port: number }) =>
   html`<html>
